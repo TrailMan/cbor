@@ -19,7 +19,7 @@ maintenance = { status = "actively-developed" }
 [dependencies]
 byteorder = { version = "1.0.0", default-features = false }
 half = "1.2.0"
-serde = { git = "ssh://github.com/TrailMan/serde.git"}
+serde = { path = "../serde/serde"}
 
 # [dev-dependencies]
 # serde_derive = { version = "1.0.14", default-features = false }
