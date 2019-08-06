@@ -11,6 +11,8 @@ pub use self::de::from_value;
 #[doc(inline)]
 pub use self::ser::to_value;
 
+pub type TagValue = (i128, Box<Value>);
+
 /// The `Value` enum, a loosely typed way of representing any valid CBOR value.
 ///
 /// Maps are sorted according to the canonical ordering
@@ -51,6 +53,7 @@ pub enum Value {
     /// to establish canonical order may be slow and therefore insertion
     /// and retrieval of values will be slow too.
     Map(BTreeMap<Value, Value>),
+    Tagged(TagValue),
     // The hidden variant allows the enum to be extended
     // with variants for tags and simple values.
     #[doc(hidden)]
@@ -128,6 +131,15 @@ impl_from!(Value::Text, String);
 // TODO: figure out if these impls should be more generic or removed.
 impl_from!(Value::Array, Vec<Value>);
 impl_from!(Value::Map, BTreeMap<Value, Value>);
+impl_from!(Value::Tagged, TagValue);
+
+
+//impl FromTagValue for Value {
+//  fn from(v:TagValue) -> Value {
+//     Value::Tagged(v.into())
+//   }
+//}
+
 
 impl Value {
     fn major_type(&self) -> u8 {
@@ -147,6 +159,7 @@ impl Value {
             Text(_) => 3,
             Array(_) => 4,
             Map(_) => 5,
+            Tagged(_) =>6,
             __Hidden => unreachable!(),
         }
     }
