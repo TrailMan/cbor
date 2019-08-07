@@ -11,7 +11,9 @@ pub use self::de::from_value;
 #[doc(inline)]
 pub use self::ser::to_value;
 
-pub type TagValue = (i128, Box<Value>);
+
+/// TagValue is an alias for (i64,  Box<Value>);
+pub type TagValue = (i64,  Box<Value>);
 
 /// The `Value` enum, a loosely typed way of representing any valid CBOR value.
 ///
@@ -53,6 +55,7 @@ pub enum Value {
     /// to establish canonical order may be slow and therefore insertion
     /// and retrieval of values will be slow too.
     Map(BTreeMap<Value, Value>),
+    ///Tagged CBOR values
     Tagged(TagValue),
     // The hidden variant allows the enum to be extended
     // with variants for tags and simple values.

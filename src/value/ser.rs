@@ -28,7 +28,7 @@ impl serde::Serialize for Value {
             Value::Float(v) => serializer.serialize_f64(v),
             Value::Bool(v) => serializer.serialize_bool(v),
             Value::Null => serializer.serialize_unit(),
-            Value::Tagged(v) => serializer.serialize_tagged(),
+            Value::Tagged(ref v) => v.serialize(serializer),
             Value::__Hidden => unreachable!(),
         }
     }
